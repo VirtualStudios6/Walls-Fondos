@@ -19,6 +19,8 @@ h1 {
 
 .gallery img {
   width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.3s;
@@ -48,8 +50,11 @@ h1 {
 }
 
 .lightbox img {
-  max-width: 90%;
+  width: auto;
+  height: auto;
   max-height: 80vh;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
   border-radius: 10px;
   transition: transform 0.3s;
 }
