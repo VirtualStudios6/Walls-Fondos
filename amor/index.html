@@ -35,9 +35,9 @@
     </div>
   </div>
 
-  <script>
-    // Lista de imágenes
-    const images = [
+<script>
+  // Lista de imágenes
+  const images = [
   'fondos/amor1.jpg', 'fondos/amor2.jpg', 'fondos/amor3.jpg', 'fondos/amor4.jpg',
   'fondos/amor5.jpg', 'fondos/amor6.jpg', 'fondos/amor7.jpg', 'fondos/amor8.jpg',
   'fondos/amor9.jpg', 'fondos/amor10.jpg', 'fondos/amor11.jpg', 'fondos/amor12.jpg',
@@ -46,93 +46,105 @@
   'fondos/amor21.jpg', 'fondos/amor22.jpg', 'fondos/amor23.jpg', 'fondos/amor24.jpg',
   'fondos/amor25.jpg', 'fondos/amor26.jpg', 'fondos/amor27.jpg', 'fondos/amor28.jpg',
   'fondos/amor29.jpg', 'fondos/amor30.jpg',
-    ];
+  ];
 
-    const gallery = document.getElementById('gallery');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const downloadBtn = document.getElementById('download-btn');
-    const likeBtn = document.getElementById('like-btn');
-    const shareBtn = document.getElementById('share-btn');
+  // Función para mezclar aleatoriamente un array (algoritmo Fisher-Yates)
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
-    // Crear galería dinámicamente
-    images.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = 'Wallpaper amor';
-      img.crossOrigin = 'anonymous';
-      img.onclick = () => openLightbox(src);
-      gallery.appendChild(img);
-    });
+  // Mezclamos las imágenes
+  shuffleArray(images);
 
-    function openLightbox(src) {
-      lightboxImg.src = src;
-      downloadBtn.href = src;
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const downloadBtn = document.getElementById('download-btn');
+  const likeBtn = document.getElementById('like-btn');
+  const shareBtn = document.getElementById('share-btn');
+
+  // Crear galería dinámicamente
+  images.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Wallpaper amor';
+    img.crossOrigin = 'anonymous';
+    img.loading = 'lazy'; // 👉 Esto hace la carga diferida (lazy)
+    img.onclick = () => openLightbox(src);
+    gallery.appendChild(img);
+  });
+
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    downloadBtn.href = src;
+    likeBtn.dataset.liked = 'false';
+    lightbox.classList.add('active');
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+  }
+
+  likeBtn.onclick = (e) => {
+    e.stopPropagation();
+    if (likeBtn.dataset.liked === 'true') {
+      likeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"/></svg>';
       likeBtn.dataset.liked = 'false';
-      lightbox.classList.add('active');
+      alert('Quitaste el like.');
+    } else {
+      likeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="red"><path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"/></svg>';
+      likeBtn.dataset.liked = 'true';
+      alert('Te gustó este wallpaper!');
     }
+  };
 
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-    }
-
-    likeBtn.onclick = (e) => {
-      e.stopPropagation();
-      if (likeBtn.dataset.liked === 'true') {
-        likeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"/></svg>';
-        likeBtn.dataset.liked = 'false';
-        alert('Quitaste el like.');
-      } else {
-        likeBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="red"><path d="M17.5,1.917a6.4,6.4,0,0,0-5.5,3.3,6.4,6.4,0,0,0-5.5-3.3A6.8,6.8,0,0,0,0,8.967c0,4.547,4.786,9.513,8.8,12.88a4.974,4.974,0,0,0,6.4,0C19.214,18.48,24,13.514,24,8.967A6.8,6.8,0,0,0,17.5,1.917Z"/></svg>';
-        likeBtn.dataset.liked = 'true';
-        alert('Te gustó este wallpaper!');
-      }
+  shareBtn.onclick = (e) => {
+    e.stopPropagation();
+    const shareData = {
+      title: "Wallpapers VirtualStudios",
+      text: "🔥 Mira estos wallpapers brutales ¡Totalmente gratis! 📥",
+      url: "https://play.google.com/store/apps/details?id=wallspro.virtualstudios&hl=es"
     };
 
-    shareBtn.onclick = (e) => {
-      e.stopPropagation();
-      const shareData = {
-        title: "Wallpapers VirtualStudios",
-        text: "🔥 Mira estos wallpapers brutales ¡Totalmente gratis! 📥",
-        url: "https://play.google.com/store/apps/details?id=wallspro.virtualstudios&hl=es"
-      };
-
-      if (navigator.share) {
-        navigator.share(shareData)
-          .catch(() => {
-            copyToClipboard(shareData.url);
-            alert("¡Enlace copiado! Pégalo para compartir la app.");
-          });
-      } else {
-        copyToClipboard(shareData.url);
-        alert("🔥 Mira estos wallpapers brutales ¡Totalmente gratis! 📥\n\n" +
-              "Enlace copiado: " + shareData.url);
-      }
-    };
-
-    // Función para copiar al portapapeles
-    function copyToClipboard(text) {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
+    if (navigator.share) {
+      navigator.share(shareData)
+        .catch(() => {
+          copyToClipboard(shareData.url);
+          alert("¡Enlace copiado! Pégalo para compartir la app.");
+        });
+    } else {
+      copyToClipboard(shareData.url);
+      alert("🔥 Mira estos wallpapers brutales ¡Totalmente gratis! 📥\n\n" +
+            "Enlace copiado: " + shareData.url);
     }
+  };
 
-    // Cerrar lightbox al hacer clic fuera
-    lightbox.onclick = (e) => {
-      if (e.target === lightbox || e.target.classList.contains('close-btn')) {
-        closeLightbox();
-      }
-    };
+  // Función para copiar al portapapeles
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
 
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-        closeLightbox();
-      }
-    });
-  </script>
+  // Cerrar lightbox al hacer clic fuera
+  lightbox.onclick = (e) => {
+    if (e.target === lightbox || e.target.classList.contains('close-btn')) {
+      closeLightbox();
+    }
+  };
+
+  // Cerrar con tecla ESC
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+</script>
 </body>
 </html>

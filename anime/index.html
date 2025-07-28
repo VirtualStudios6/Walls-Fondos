@@ -35,35 +35,47 @@
     </div>
   </div>
 
-  <script>
-    // Lista de imágenes
-    const images = [
-  'fondos/anime1.jpg', 'fondos/anime2.jpg', 'fondos/anime3.jpg', 'fondos/anime4.jpg',
-  'fondos/anime5.jpg', 'fondos/anime6.jpg', 'fondos/anime7.jpg', 'fondos/anime8.jpg',
-  'fondos/anime9.jpg', 'fondos/anime10.jpg', 'fondos/anime11.jpg', 'fondos/anime12.jpg',
-  'fondos/anime13.jpg', 'fondos/anime14.jpg', 'fondos/anime15.jpg', 'fondos/anime16.jpg',
-  'fondos/anime17.jpg', 'fondos/anime18.jpg', 'fondos/anime19.jpg', 'fondos/anime20.jpg',
-  'fondos/anime21.jpg', 'fondos/anime22.jpg', 'fondos/anime23.jpg', 'fondos/anime24.jpg',
-  'fondos/anime25.jpg', 'fondos/anime26.jpg', 'fondos/anime27.jpg', 'fondos/anime28.jpg',
-  'fondos/anime29.jpg', 'fondos/anime30.jpg',
-    ];
+<script>
+  // Lista de imágenes
+  const images = [
+    'fondos/anime1.jpg', 'fondos/anime2.jpg', 'fondos/anime3.jpg', 'fondos/anime4.jpg',
+    'fondos/anime5.jpg', 'fondos/anime6.jpg', 'fondos/anime7.jpg', 'fondos/anime8.jpg',
+    'fondos/anime9.jpg', 'fondos/anime10.jpg', 'fondos/anime11.jpg', 'fondos/anime12.jpg',
+    'fondos/anime13.jpg', 'fondos/anime14.jpg', 'fondos/anime15.jpg', 'fondos/anime16.jpg',
+    'fondos/anime17.jpg', 'fondos/anime18.jpg', 'fondos/anime19.jpg', 'fondos/anime20.jpg',
+    'fondos/anime21.jpg', 'fondos/anime22.jpg', 'fondos/anime23.jpg', 'fondos/anime24.jpg',
+    'fondos/anime25.jpg', 'fondos/anime26.jpg', 'fondos/anime27.jpg', 'fondos/anime28.jpg',
+    'fondos/anime29.jpg', 'fondos/anime30.jpg',
+  ];
 
-    const gallery = document.getElementById('gallery');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const downloadBtn = document.getElementById('download-btn');
-    const likeBtn = document.getElementById('like-btn');
-    const shareBtn = document.getElementById('share-btn');
+  // Función para mezclar aleatoriamente un array (algoritmo Fisher-Yates)
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
-    // Crear galería dinámicamente
-    images.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = 'Wallpaper anime';
-      img.crossOrigin = 'anonymous';
-      img.onclick = () => openLightbox(src);
-      gallery.appendChild(img);
-    });
+  // Mezclamos las imágenes
+  shuffleArray(images);
+
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const downloadBtn = document.getElementById('download-btn');
+  const likeBtn = document.getElementById('like-btn');
+  const shareBtn = document.getElementById('share-btn');
+
+// Crear galería dinámicamente
+images.forEach(src => {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = 'Wallpaper anime';
+  img.crossOrigin = 'anonymous';
+  img.loading = 'lazy'; // 👉 Esto hace la carga diferida (lazy)
+  img.onclick = () => openLightbox(src);
+  gallery.appendChild(img);
+});
 
     function openLightbox(src) {
       lightboxImg.src = src;
