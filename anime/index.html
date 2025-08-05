@@ -36,17 +36,11 @@
   </div>
 
 <script>
-  // Lista de imágenes
-  const images = [
-    'fondos/anime1.jpg', 'fondos/anime2.jpg', 'fondos/anime3.jpg', 'fondos/anime4.jpg',
-    'fondos/anime5.jpg', 'fondos/anime6.jpg', 'fondos/anime7.jpg', 'fondos/anime8.jpg',
-    'fondos/anime9.jpg', 'fondos/anime10.jpg', 'fondos/anime11.jpg', 'fondos/anime12.jpg',
-    'fondos/anime13.jpg', 'fondos/anime14.jpg', 'fondos/anime15.jpg', 'fondos/anime16.jpg',
-    'fondos/anime17.jpg', 'fondos/anime18.jpg', 'fondos/anime19.jpg', 'fondos/anime20.jpg',
-    'fondos/anime21.jpg', 'fondos/anime22.jpg', 'fondos/anime23.jpg', 'fondos/anime24.jpg',
-    'fondos/anime25.jpg', 'fondos/anime26.jpg', 'fondos/anime27.jpg', 'fondos/anime28.jpg',
-    'fondos/anime29.jpg', 'fondos/anime30.jpg',
-  ];
+// imágenes automáticas
+const images = [];
+for (let i = 1; i <= 50; i++) {  // Aqui va el numero max de Fondos
+  images.push(`fondos/anime${i}.jpg`);
+}
 
   // Función para mezclar aleatoriamente un array (algoritmo Fisher-Yates)
   function shuffleArray(array) {

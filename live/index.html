@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live 4K</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<h1>Categoría - Live</h1>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="lightbox" id="lightbox">
+  <span class="close-btn" onclick="closeLightbox()">×</span>
+  <video id="lightbox-video" controls autoplay loop crossorigin="anonymous"></video>
+  <div class="actions">
+    <button class="action-btn" id="like-btn" title="Me gusta">❤️</button>
+    <button class="action-btn" id="share-btn" title="Compartir">🔗</button>
+    <a class="action-btn" id="download-btn" title="Descargar" download>⬇️</a>
+  </div>
+</div>
+
+<script>
+  const totalVideos = 65;
+  const videos = [];
+
+  for (let i = 1; i <= totalVideos; i++) {
+    videos.push(`fondos/live${i}.mp4`);
+  }
+
+  // Mezclamos los videos
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  shuffleArray(videos);
+
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxVideo = document.getElementById('lightbox-video');
+  const downloadBtn = document.getElementById('download-btn');
+  const likeBtn = document.getElementById('like-btn');
+  const shareBtn = document.getElementById('share-btn');
+
+  // Crear la galería
+  videos.forEach(src => {
+    const video = document.createElement('video');
+    video.src = src;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.loading = 'lazy';
+    video.classList.add('preview');
+    video.onclick = () => openLightbox(src);
+    gallery.appendChild(video);
+  });
+
+  function openLightbox(src) {
+    lightboxVideo.src = src;
+    downloadBtn.href = src;
+    likeBtn.dataset.liked = 'false';
+    lightbox.classList.add('active');
+    lightboxVideo.play();
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightboxVideo.pause();
+  }
+
+  likeBtn.onclick = (e) => {
+    e.stopPropagation();
+    const liked = likeBtn.dataset.liked === 'true';
+    likeBtn.dataset.liked = liked ? 'false' : 'true';
+    alert(liked ? 'Quitaste el like.' : 'Te gustó este live wallpaper!');
+  };
+
+  shareBtn.onclick = (e) => {
+    e.stopPropagation();
+    const shareData = {
+      title: "Live Wallpapers VirtualStudios",
+      text: "🔥 Mira estos fondos en movimiento brutales ¡Totalmente gratis! 📲",
+      url: "https://play.google.com/store/apps/details?id=wallspro.virtualstudios&hl=es"
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData)
+        .catch(() => {
+          copyToClipboard(shareData.url);
+          alert("¡Enlace copiado! Pégalo para compartir la app.");
+        });
+    } else {
+      copyToClipboard(shareData.url);
+      alert("🔥 Mira estos fondos en movimiento brutales ¡Totalmente gratis!\n\nEnlace copiado: " + shareData.url);
+    }
+  };
+
+  function copyToClipboard(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
+
+  lightbox.onclick = (e) => {
+    if (e.target === lightbox || e.target.classList.contains('close-btn')) {
+      closeLightbox();
+    }
+  };
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+</script>
+
+</body>
+</html>
