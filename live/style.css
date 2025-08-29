@@ -17,34 +17,39 @@ h1 {
   padding: 20px;
 }
 
-/* Aplica a imágenes y videos en la galería */
-.gallery img,
-.gallery video {
+.gallery img {
   width: 100%;
   aspect-ratio: 9 / 16;
   object-fit: cover;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0;
+  transform: scale(0.95);
+  will-change: opacity, transform;
 }
 
-.gallery img:hover,
-.gallery video:hover {
+.gallery img.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gallery img:hover {
   transform: scale(1.05);
 }
 
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0,0,0,0.9);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
   z-index: 1000;
+  padding: 20px;
 }
 
 .lightbox.active {
@@ -52,16 +57,19 @@ h1 {
   visibility: visible;
 }
 
-/* Aplica al contenido ampliado en lightbox (video o imagen) */
-.lightbox img,
-.lightbox video {
-  width: auto;
-  height: auto;
-  max-height: 80vh;
-  aspect-ratio: 9 / 16;
+.lightbox img {
+  max-width: 90vw;   /* se ajusta al ancho de pantalla */
+  max-height: 85vh;  /* se ajusta a la altura */
   object-fit: contain;
   border-radius: 10px;
-  transition: transform 0.3s;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.lightbox.active img {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .close-btn {
@@ -71,19 +79,48 @@ h1 {
   font-size: 30px;
   color: #fff;
   cursor: pointer;
+  user-select: none;
+  z-index: 1010;
+  background: transparent;
+  border: none;
 }
 
-.lightbox .actions {
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  font-size: 40px; /* un poco más pequeño */
+  color: white;
+  cursor: pointer;
+  padding: 8px 12px;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.nav-btn:hover {
+  background: rgba(0,0,0,0.6);
+}
+
+.prev {
+  left: 15px;
+}
+
+.next {
+  right: 15px;
+}
+
+.actions {
   margin-top: 15px;
   display: flex;
-  gap: 20px;
+  gap: 15px;
   justify-content: center;
 }
 
 .action-btn {
-  width: 48px;
-  height: 48px;
-  background: rgba(0, 0, 0, 0.6);
+  width: 44px;
+  height: 44px;
+  background: rgba(0,0,0,0.6);
   color: #fff;
   border: none;
   border-radius: 50%;
@@ -95,45 +132,16 @@ h1 {
 }
 
 .action-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
 }
 
 .action-btn svg {
-  width: 24px;
-  height: 24px;
-  fill: #fff;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
   pointer-events: none;
 }
 
-#like-btn {
-  font-size: 20px;
-}
-
-@media (max-width: 600px) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 10px;
-    gap: 8px;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-    margin-top: 15px;
-  }
-
-  .action-btn {
-    width: 40px;
-    height: 40px;
-  }
-
-  .action-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .close-btn {
-    font-size: 24px;
-    top: 15px;
-    right: 15px;
-  }
+#like-btn[aria-pressed="true"] svg {
+  fill: red;
 }
